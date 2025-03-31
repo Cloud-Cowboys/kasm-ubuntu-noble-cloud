@@ -70,11 +70,7 @@ RUN apt-get update && apt-get install -y software-properties-common \
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
     && dpkg -i google-chrome-stable_current_amd64.deb \
     && apt-get install -f -y \
-    && rm -f google-chrome-stable_current_amd64.deb \
-    && echo "[Desktop Entry]\nName=Google Chrome\nComment=Web Browser\nExec=/usr/bin/google-chrome-stable\nIcon=google-chrome\nTerminal=false\nType=Application\nCategories=Network;WebBrowser;\nStartupWMClass=Google-chrome" > /usr/share/applications/google-chrome.desktop \
-    && cp /usr/share/applications/google-chrome.desktop $HOME/Desktop/ \
-    && chmod +x $HOME/Desktop/google-chrome.desktop \
-    && chown 1000:1000 $HOME/Desktop/google-chrome.desktop
+    && rm -f google-chrome-stable_current_amd64.deb
 
 ######### End Customizations ###########
 
