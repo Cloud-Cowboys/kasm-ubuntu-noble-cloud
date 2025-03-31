@@ -21,7 +21,10 @@ RUN  wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | apt-key add
 RUN  curl -fsSL https://downloads.k8slens.dev/keys/gpg | gpg --dearmor | tee /usr/share/keyrings/lens-archive-keyring.gpg > /dev/null \
     && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/lens-archive-keyring.gpg] https://downloads.k8slens.dev/apt/debian stable main" | tee /etc/apt/sources.list.d/lens.list > /dev/null \
     && apt-get update \ 
-    && apt-get install -y lens
+    && apt-get install -y lens \
+    && cp /usr/share/applications/lens-desktop.desktop $HOME/Desktop/ \
+    && chmod +x $HOME/Desktop/lens-desktop.desktop \
+    && chown 1000:1000 $HOME/Desktop/lens-desktop.desktop
 
 RUN apt-get install -y wget gpg \
     && wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg \
@@ -30,7 +33,10 @@ RUN apt-get install -y wget gpg \
     && rm -f packages.microsoft.gpg \
     && apt-get install -y apt-transport-https \
     && apt-get update \
-    && apt-get install -y code
+    && apt-get install -y code \
+    && cp /usr/share/applications/code.desktop $HOME/Desktop/ \
+    && chmod +x $HOME/Desktop/code.desktop \
+    && chown 1000:1000 $HOME/Desktop/code.desktop
 
 RUN wget https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.deb \
     && apt install -y ./k9s_linux_amd64.deb \
