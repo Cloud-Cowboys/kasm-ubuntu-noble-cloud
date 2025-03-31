@@ -42,6 +42,14 @@ RUN wget https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd6
     && apt install -y ./k9s_linux_amd64.deb \
     && rm -f k9s_linux_amd64.deb
 
+RUN apt-get update && apt-get install -y libfuse2 \
+    && mkdir -p /opt/headlamp \
+    && wget -O /opt/headlamp/Headlamp.AppImage https://github.com/headlamp-k8s/headlamp/releases/download/v0.30.0/Headlamp-0.30.0-linux-x64.AppImage \
+    && chmod +x /opt/headlamp/Headlamp.AppImage \
+    && echo "[Desktop Entry]\nName=Headlamp\nComment=Kubernetes Dashboard\nExec=/opt/headlamp/Headlamp.AppImage\nIcon=headlamp\nTerminal=false\nType=Application\nCategories=Development;Utility;\nStartupWMClass=Headlamp" > /usr/share/applications/headlamp.desktop \
+    && cp /usr/share/applications/headlamp.desktop $HOME/Desktop/ \
+    && chmod +x $HOME/Desktop/headlamp.desktop \
+    && chown 1000:1000 $HOME/Desktop/headlamp.desktop
 
 ######### End Customizations ###########
 
