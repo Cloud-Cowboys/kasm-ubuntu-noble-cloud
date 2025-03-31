@@ -51,6 +51,9 @@ RUN apt-get update && apt-get install -y libfuse2 \
     && chmod +x $HOME/Desktop/headlamp.desktop \
     && chown 1000:1000 $HOME/Desktop/headlamp.desktop
 
+RUN apt-get update && apt-get install -y ca-certificates curl apt-transport-https lsb-release gnupg \
+    && curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+
 ######### End Customizations ###########
 
 RUN chown 1000:0 $HOME
