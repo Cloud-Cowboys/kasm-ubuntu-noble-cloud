@@ -8,6 +8,7 @@ WORKDIR $HOME
 
 ######### Customize Container Here ###########
 
+# Installing Sublime Text - Code editor
 RUN  wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | apt-key add - \
     && apt-get update \
     && apt-get install -y apt-transport-https \
@@ -18,6 +19,7 @@ RUN  wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | apt-key add
     && chmod +x $HOME/Desktop/sublime_text.desktop \
     && chown 1000:1000 $HOME/Desktop/sublime_text.desktop
 
+# Installing Lens - Kubernetes IDE and cluster management
 RUN  curl -fsSL https://downloads.k8slens.dev/keys/gpg | gpg --dearmor | tee /usr/share/keyrings/lens-archive-keyring.gpg > /dev/null \
     && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/lens-archive-keyring.gpg] https://downloads.k8slens.dev/apt/debian stable main" | tee /etc/apt/sources.list.d/lens.list > /dev/null \
     && apt-get update \ 
@@ -26,6 +28,7 @@ RUN  curl -fsSL https://downloads.k8slens.dev/keys/gpg | gpg --dearmor | tee /us
     && chmod +x $HOME/Desktop/lens-desktop.desktop \
     && chown 1000:1000 $HOME/Desktop/lens-desktop.desktop
 
+# Installing Visual Studio Code - Microsoft's code editor
 RUN apt-get install -y wget gpg \
     && wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg \
     && install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg \
@@ -38,10 +41,12 @@ RUN apt-get install -y wget gpg \
     && chmod +x $HOME/Desktop/code.desktop \
     && chown 1000:1000 $HOME/Desktop/code.desktop
 
+# Installing K9s - Terminal based UI to interact with Kubernetes clusters
 RUN wget https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.deb \
     && apt install -y ./k9s_linux_amd64.deb \
     && rm -f k9s_linux_amd64.deb
 
+# Installing Headlamp - Web-based Kubernetes dashboard
 RUN apt-get update && apt-get install -y libfuse2 \
     && mkdir -p /opt/headlamp \
     && wget -O /opt/headlamp/Headlamp.AppImage https://github.com/headlamp-k8s/headlamp/releases/download/v0.30.0/Headlamp-0.30.0-linux-x64.AppImage \
@@ -51,6 +56,7 @@ RUN apt-get update && apt-get install -y libfuse2 \
     && chmod +x $HOME/Desktop/headlamp.desktop \
     && chown 1000:1000 $HOME/Desktop/headlamp.desktop
 
+# Installing Azure CLI - Command-line tools for Azure cloud management
 RUN apt-get update && apt-get install -y ca-certificates curl apt-transport-https lsb-release gnupg \
     && curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
