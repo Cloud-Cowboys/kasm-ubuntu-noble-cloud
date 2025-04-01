@@ -12,7 +12,7 @@ WORKDIR $HOME
 RUN apt-get update && apt-get install -y build-essential curl file git
 
 # Installing Homebrew
-RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
+RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
     echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> $HOME/.profile && \
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && \
     chown -R 1000:1000 /home/linuxbrew && \
