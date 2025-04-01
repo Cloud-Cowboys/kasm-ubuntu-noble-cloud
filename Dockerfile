@@ -66,11 +66,14 @@ RUN apt-get update && apt-get install -y software-properties-common \
     && apt-get update \
     && apt-get install -y libfuse2t64
 
-# Installing Google Chrome browser
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-    && dpkg -i google-chrome-stable_current_amd64.deb \
-    && apt-get install -f -y \
-    && rm -f google-chrome-stable_current_amd64.deb
+# Installing Google Chrome browser using the kasmtech script
+RUN wget https://raw.githubusercontent.com/kasmtech/workspaces-images/refs/heads/develop/src/ubuntu/install/chrome/install_chrome.sh \
+    && chmod +x install_chrome.sh \
+    && ./install_chrome.sh \
+    && rm install_chrome.sh
+    && cp /usr/share/applications/google-chrome.desktop $HOME/Desktop/ \
+    && chmod +x $HOME/Desktop/google-chrome.desktop \
+    && chown 1000:1000 $HOME/Desktop/google-chrome.desktop
 
 ######### End Customizations ###########
 
