@@ -70,7 +70,7 @@ RUN apt-get update && apt-get install -y software-properties-common \
 RUN wget https://raw.githubusercontent.com/kasmtech/workspaces-images/refs/heads/develop/src/ubuntu/install/chrome/install_chrome.sh \
     && chmod +x install_chrome.sh \
     && ./install_chrome.sh \
-    && rm install_chrome.sh
+    && rm install_chrome.sh \
     && cp /usr/share/applications/google-chrome.desktop $HOME/Desktop/ \
     && chmod +x $HOME/Desktop/google-chrome.desktop \
     && chown 1000:1000 $HOME/Desktop/google-chrome.desktop
