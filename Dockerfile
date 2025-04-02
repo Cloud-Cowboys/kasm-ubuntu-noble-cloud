@@ -9,7 +9,7 @@ WORKDIR $HOME
 ######### Customize Container Here ###########
 
 # Installing prerequisites and setting up locales
-RUN apt-get update && apt-get install -y \
+RUN apt-get install -y \
        build-essential \
        curl \
        file \
@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y \
        rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /home/linuxbrew/.linuxbrew && \
+    mkdir -p /home/linuxbrew/.linuxbrew/bin && \
     chown -R 1000:0 /home/linuxbrew
 
 # Set up directories and permissions
@@ -40,8 +41,7 @@ RUN curl -L https://github.com/Homebrew/brew/archive/master.zip -o brew.zip && \
     unzip brew.zip && \
     rm brew.zip && \
     mv brew-master/* /home/linuxbrew/.linuxbrew/ && \
-    rmdir brew-master && \
-    mkdir -p /home/linuxbrew/.linuxbrew/bin && \
+    rm -R brew-master && \
     ln -s /home/linuxbrew/.linuxbrew/bin/brew /home/linuxbrew/.linuxbrew/bin/brew
 
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"
