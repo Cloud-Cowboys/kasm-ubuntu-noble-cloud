@@ -9,14 +9,18 @@ WORKDIR $HOME
 ######### Customize Container Here ###########
 
 # Installing Homebrew prerequisites
-RUN apt-get update && apt-get install -y build-essential curl file git
+RUN apt-get update && apt-get install -y build-essential curl file git unzip
 
 # Install Homebrew
-RUN git clone https://github.com/Homebrew/brew /home/linuxbrew/.linuxbrew/Homebrew && \
+RUN curl -L https://github.com/Homebrew/brew/archive/master.zip -o brew.zip && \
+    mkdir -p /home/linuxbrew/.linuxbrew && \
+    unzip brew.zip && \
+    mv brew-master /home/linuxbrew/.linuxbrew/Homebrew && \
     mkdir /home/linuxbrew/.linuxbrew/bin && \
     ln -s /home/linuxbrew/.linuxbrew/Homebrew/bin/brew /home/linuxbrew/.linuxbrew/bin && \
     eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv) && \
     echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /root/.profile && \
+    rm brew.zip && \
     brew install hello
 
 # Ensure Homebrew is in the PATH
