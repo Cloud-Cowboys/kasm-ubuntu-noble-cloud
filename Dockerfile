@@ -8,8 +8,21 @@ WORKDIR $HOME
 
 ######### Customize Container Here ###########
 
-# Installing prerequisites
-RUN apt-get update && apt-get install -y build-essential curl file git unzip
+# Installing prerequisites and setting up locales
+RUN apt-get update && apt-get install -y \
+       build-essential \
+       curl \
+       file \
+       git \
+       unzip \
+       locales && \
+       locale-gen en_US.UTF-8 && \
+       update-locale LANG=en_US.UTF-8 && \
+       apt-get clean && \
+       rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /home/linuxbrew/.linuxbrew && \
+    chown -R 1000:0 /home/linuxbrew
 
 # Set up directories and permissions
 RUN chown 1000:0 $HOME
@@ -23,8 +36,7 @@ RUN mkdir -p $HOME && chown -R 1000:0 $HOME
 USER 1000
 
 # Installing Homebrew manually from zip
-RUN mkdir -p /home/linuxbrew/.linuxbrew && \
-    curl -L https://github.com/Homebrew/brew/archive/master.zip -o brew.zip && \
+RUN curl -L https://github.com/Homebrew/brew/archive/master.zip -o brew.zip && \
     unzip brew.zip && \
     rm brew.zip && \
     mv brew-master/* /home/linuxbrew/.linuxbrew/ && \
