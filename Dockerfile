@@ -8,8 +8,8 @@ WORKDIR $HOME
 
 ######### Customize Container Here ###########
 
-# Installing Homebrew prerequisites as root
-RUN apt-get update && apt-get install -y build-essential curl file git
+# Installing prerequisites
+RUN apt-get update && apt-get install -y build-essential curl file git unzip
 
 # Set up directories and permissions
 RUN chown 1000:0 $HOME
@@ -19,13 +19,24 @@ ENV HOME /home/kasm-user
 WORKDIR $HOME
 RUN mkdir -p $HOME && chown -R 1000:0 $HOME
 
-# Switch to non-root user for Homebrew installation and package management
+# Switch to non-root user for Homebrew installation
 USER 1000
 
-# Installing Homebrew
-RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# Installing Homebrew manually from zip
+RUN mkdir -p /home/linuxbrew/.linuxbrew && \
+    curl -L https://github.com/Homebrew/brew/archive/master.zip -o brew.zip && \
+    unzip brew.zip && \
+    rm brew.zip && \
+    mv brew-master/* /home/linuxbrew/.linuxbrew/ && \
+    rmdir brew-master && \
+    mkdir -p /home/linuxbrew/.linuxbrew/bin && \
+    ln -s /home/linuxbrew/.linuxbrew/bin/brew /home/linuxbrew/.linuxbrew/bin/brew
 
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"
+
+# Initialize Homebrew
+RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && \
+    brew update --force
 
 # Install applications using Homebrew
 RUN brew install --cask sublime-text && \
