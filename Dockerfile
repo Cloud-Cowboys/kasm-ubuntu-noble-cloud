@@ -9,7 +9,7 @@ WORKDIR $HOME
 ######### Customize Container Here ###########
 
 # Installing prerequisites and setting up locales
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
        build-essential \
        curl \
        file \
