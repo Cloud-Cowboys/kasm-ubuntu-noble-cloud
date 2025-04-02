@@ -11,10 +11,16 @@ WORKDIR $HOME
 # Installing Homebrew prerequisites
 RUN apt-get update && apt-get install -y build-essential curl file git
 
-# Installing Homebrew
-RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# Install Homebrew
+RUN git clone https://github.com/Homebrew/brew /home/linuxbrew/.linuxbrew/Homebrew && \
+    mkdir /home/linuxbrew/.linuxbrew/bin && \
+    ln -s /home/linuxbrew/.linuxbrew/Homebrew/bin/brew /home/linuxbrew/.linuxbrew/bin && \
+    eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv) && \
+    echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /root/.profile && \
+    brew install hello
 
-ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"
+# Ensure Homebrew is in the PATH
+ENV PATH="/home/linuxbrew/.linuxbrew/bin:${PATH}"
 
 # Install applications using Homebrew
 RUN brew install --cask sublime-text && \
